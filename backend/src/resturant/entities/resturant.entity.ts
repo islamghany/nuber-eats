@@ -1,10 +1,18 @@
 import {Field,ObjectType} from '@nestjs/graphql';
-
+import {Column,Entity,PrimaryGeneratedColumn} from 'typeorm'
 @ObjectType()
+@Entity('resturant')
 export class Resturant{
+	
+	@Field(type=>Number)
+	@PrimaryGeneratedColumn()
+	id:number;
+
 	@Field(type => String)
-	name:string
+	@Column()
+	name:string;
 
 	@Field(type => Boolean, {nullable:true})
-	isGood?:boolean
+	@Column()
+	isGood?:boolean;
 }

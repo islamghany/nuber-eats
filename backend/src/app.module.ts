@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ResturantModule } from './resturant/resturant.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {ConfigModule} from '@nestjs/config'
 import * as Joi from 'joi';
-
+import { CommonModule } from './common/common.module';
+import {User} from './users/entities/user.entity';
+import {UserModule} from './users/users.module';
 @Module({
 	imports: [
 		ConfigModule.forRoot({
@@ -30,10 +31,12 @@ import * as Joi from 'joi';
 			port: +process.env.DB_PORT,
 			username: process.env.DB_USERNAME,
 			password: process.env.DB_PASSWORD,
-			synchronize: true,
-			logging: true,
+			synchronize: process.env.NODE_ENV !== 'prod',
+			logging: process.env.NODE_ENV !== 'prod',
+			entities:[User]
 		}),
-		ResturantModule,
+		UserModule,
+		CommonModule,
 	],
 })
 export class AppModule {}
